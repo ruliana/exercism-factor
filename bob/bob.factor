@@ -4,17 +4,18 @@ IN: exercism.bob
 : bob-response ( say -- resp )
     {
         {
-            [ dup R/ \s*/ matches? ]
-            [ drop "Fine. Be that way!" ]
+            R/ \s*/
+            "Fine. Be that way!"
         } {
-            [ dup R/ \P{lower}*\p{upper}\P{lower}*\?/ matches? ]
-            [ drop "Calm down, I know what I'm doing!" ]
+            R/ \P{lower}*\p{upper}\P{lower}*\?/
+            "Calm down, I know what I'm doing!"
         } {
-            [ dup R/ \P{lower}*\p{upper}\P{lower}*/ matches? ]
-            [ drop "Whoa, chill out!" ]
+            R/ \P{lower}*\p{upper}\P{lower}*/
+            "Whoa, chill out!"
         } {
-            [ dup R/ \?$/ re-contains? ]
-            [ drop "Sure." ]
+            R/ .*\?/
+            "Sure."
         }
-        [ drop "Whatever." ]
-    } cond ;
+    } [ first matches? ] with find nip
+    [ second ] [ "Whatever." ] if*
+;
